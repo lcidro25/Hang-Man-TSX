@@ -13,7 +13,7 @@ Hangman is a classic word-guessing game where one player thinks of a word, and t
 
 ### Features:
 
-- Win and Loss System. Limited to 6 Incorrect Letters, corresponds to the 6 major parts of a Hangman Drawing, that results to a Loss:
+- Win and Loss System. Limited to 6 Incorrect Letters, corresponds to the 6 major parts of a Hangman Drawing, that results to a Loss. Otherwise, the player will Win:
 
 ```tsx
 const incorrectLetters = guessedLetters.filter(
@@ -25,4 +25,35 @@ const incorrectLetters = guessedLetters.filter(
     .split("")
     .filter((letter) => letter !== " ")
     .every((letter) => guessedLetters.includes(letter));
+```
+
+- Flexibiility. Both the system's keyboard and the physical keyboard of the user cna be used on playing:
+
+```tsx
+useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key;
+      if (!key.match(/^[a-z]$/)) return;
+
+      e.preventDefault();
+      addGuessedLetter(key);
+    };
+
+    document.addEventListener("keypress", handler);
+
+    return () => {
+      document.removeEventListener("keypress", handler);
+    };
+  }, [guessedLetters]);
+```
+
+- Hint System. I provided a hint button on whether the current word is a MLB or a NBA team name, for users who are not familiar to the sports team names.
+```tsx
+const showHint = () => {
+    if (mlbTeams.includes(wordToGuess)) {
+      setHint("MLB Team");
+    } else if (nbaTeams.includes(wordToGuess)) {
+      setHint("NBA Team");
+    }
+  };
 ```
