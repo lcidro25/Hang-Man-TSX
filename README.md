@@ -1,50 +1,28 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite = Hangman Game for MLB and NBA Teams
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is an already exisiting project by a Youtube Channel named "Web Dev Simplified", here is the link of the Youtube Video: [This Is A Great Beginner React/TypeScript Project](https://youtu.be/-ONUyenGnWw?list=TLPQMTgwMTIwMjXoEaq1Xe4FLg)
 
-Currently, two official plugins are available:
+## Changes that I made:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Instead of English words to use for the users to guess, I replaced it with Major League Baseball(MLB) and National Basketball Association(NBA) team names.
+- The normal Hangman rules still applies with the head, body, left arm, right arm, left leg and right leg, accordingly.
 
-## Expanding the ESLint configuration
+### Context of a Hangman Game:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Hangman is a classic word-guessing game where one player thinks of a word, and the other tries to guess it letter by letter. The word's letters are represented by blank spaces, and each incorrect guess adds a part to a "hangman" figure, typically drawn on a gallows. The game ends when the guesser either completes the word or the hangman drawing is finished, symbolizing the player's loss.****
 
-- Configure the top-level `parserOptions` property like this:
+### Features:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Win and Loss System. Limited to 6 Incorrect Letters, corresponds to the 6 major parts of a Hangman Drawing, that results to a Loss:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+```tsx
+const incorrectLetters = guessedLetters.filter(
+    (letter) => !wordToGuess.includes(letter)
+  );
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+  const isLoser = incorrectLetters.length >= 6;
+  const isWinner = wordToGuess
+    .split("")
+    .filter((letter) => letter !== " ")
+    .every((letter) => guessedLetters.includes(letter));
 ```
